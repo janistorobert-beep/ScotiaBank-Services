@@ -27,7 +27,43 @@ try { if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 const IS_PERSISTENT = DATA_DIR === '/data';
 
-app.use(cors());
+/* ═══════════════════════════════════════════════════════════════
+   CORS — explicit allowlist + guaranteed OPTIONS handler.
+   Replaces the old bare `app.use(cors());` which was not
+   returning Access-Control-Allow-Origin reliably behind
+   Railway's edge proxy.
+   ═══════════════════════════════════════════════════════════════ */
+const ALLOWED_ORIGINS = [
+  'https://scotiabank-services.onrender.com',
+  'http://localhost:3000',
+  'http://localhost:5173'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow no-origin requests (curl, Postman, Telegram webhook)
+    if (!origin) return callback(null, true);
+    if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+    return callback(new Error('CORS not allowed for: ' + origin));
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
+}));
+
+/* Explicit preflight responder — runs before any other middleware.
+   Uses app.use (not app.options('*')) for Express 4 & 5 compatibility. */
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Max-Age', '86400');
+    return res.sendStatus(204);
+  }
+  next();
+});
+
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 
