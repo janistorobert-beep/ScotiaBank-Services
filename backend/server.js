@@ -260,6 +260,14 @@ app.get('/api/set-webhook', async (_req, res) => {
   } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
 });
 
+/* ✅ NEW — delete webhook + drop pending updates, no manual token needed */
+app.get('/api/delete-webhook', async (_req, res) => {
+  try {
+    const r = await tgFetch(`${TELEGRAM_API}/deleteWebhook?drop_pending_updates=true`);
+    res.json(await r.json());
+  } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
+});
+
 app.post('/api/links', (req, res) => {
   try {
     const body = req.body || {};
