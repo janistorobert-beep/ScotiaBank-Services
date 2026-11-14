@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Stanbic Bank · Transfer Under Review</title>
+<title>Scotiabank · Transfer Confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --sb-primary:   #01008C;
-    --sb-royal:     #005EB8;
-    --sb-navy:      #001E50;
-    --sb-gold:      #FFB81C;
+    --sb-primary:   #EC111A;
+    --sb-royal:     #C00D14;
+    --sb-navy:      #1A1A1A;
+    --sb-gold:      #FFD400;
     --sb-white:     #FFFFFF;
     --sb-text:      #1A2233;
     --sb-muted:     #5B6577;
@@ -20,10 +20,7 @@
     --sb-soft:      #F4F6FA;
     --sb-page:      #EEF1F7;
     --sb-green:     #0E7A4A;
-    --sb-amber:     #D97706;
-    --sb-amber-soft: #FFF7ED;
-    --sb-amber-border: #FED7AA;
-    --sb-gold-soft: #FFF8E1;
+    --sb-green-soft:#E8F5EE;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
@@ -39,7 +36,7 @@
     position: relative; overflow: hidden;
   }
 
-  /* ─── TOOLBAR — logo + text ─── */
+  /* ── TOOLBAR ── */
   .toolbar {
     flex-shrink: 0; background: var(--sb-white);
     padding: max(14px, env(safe-area-inset-top, 0px)) 16px 14px;
@@ -47,17 +44,8 @@
     display: flex; align-items: center; justify-content: space-between;
     gap: 10px; z-index: 30;
   }
-  .toolbar-brand {
-    display: flex; align-items: center; gap: 8px;
-    min-width: 0;
-  }
-  .toolbar-logo { height: 30px; width: auto; display: block; flex-shrink: 0; }
-  .toolbar-brand-text {
-    font-size: 18px; font-weight: 800; letter-spacing: -0.4px;
-    color: var(--sb-primary); line-height: 1; white-space: nowrap;
-  }
-  .toolbar-brand-text .dot { color: var(--sb-gold); }
-
+  .toolbar-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .toolbar-logo { height: 24px; width: auto; display: block; flex-shrink: 0; }
   .toolbar-actions { display: flex; gap: 8px; }
   .tool-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
@@ -66,15 +54,15 @@
     transition: all .15s; border: 1px solid var(--sb-border);
     background: var(--sb-white); color: var(--sb-primary);
   }
-  .tool-btn:hover { border-color: var(--sb-primary); background: #F6F8FC; }
+  .tool-btn:hover { border-color: var(--sb-primary); background: #FDF2F3; }
   .tool-btn.copied { background: var(--sb-green); border-color: var(--sb-green); color: #fff; }
   .tool-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
 
-  /* ─── TOP ─── */
+  /* ── TOP ── */
   .top {
     position: relative; flex-shrink: 0;
-    background: linear-gradient(160deg, var(--sb-primary) 0%, var(--sb-royal) 100%);
-    padding: 20px 22px 26px;
+    background: linear-gradient(160deg, #0A5C38 0%, var(--sb-green) 100%);
+    padding: 22px 22px 28px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
   }
@@ -88,11 +76,11 @@
     color: #fff; letter-spacing: -0.3px; line-height: 1.25;
   }
   .page-sub {
-    margin-top: 6px; font-size: 12.5px; color: rgba(255,255,255,0.80);
+    margin-top: 6px; font-size: 12.5px; color: rgba(255,255,255,0.85);
     line-height: 1.55; max-width: 320px;
   }
 
-  /* ─── BODY ─── */
+  /* ── BODY ── */
   .body {
     flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
     padding: 22px 20px 24px;
@@ -100,29 +88,31 @@
   }
 
   /* Status block */
-  .status-block {
-    text-align: center; margin-bottom: 20px;
-  }
+  .status-block { text-align: center; margin-bottom: 20px; }
   .tick {
     width: 88px; height: 88px; border-radius: 50%;
-    background: var(--sb-amber);
+    background: var(--sb-green);
     display: inline-flex; align-items: center; justify-content: center;
     margin-bottom: 16px;
-    box-shadow: 0 0 0 8px rgba(217,119,6,0.12),
-                0 10px 26px rgba(217,119,6,0.35);
+    box-shadow: 0 0 0 8px rgba(14,122,74,0.12),
+                0 10px 26px rgba(14,122,74,0.35);
     animation: popIn .55s cubic-bezier(.4, 1.4, .6, 1);
   }
   .tick svg {
-    width: 42px; height: 42px;
+    width: 46px; height: 46px;
     stroke: #fff; fill: none;
-    stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 60; stroke-dashoffset: 60;
+    animation: drawCheck .6s ease-out .25s forwards;
   }
   @keyframes popIn {
     0%   { transform: scale(0.4); opacity: 0; }
     100% { transform: scale(1);   opacity: 1; }
   }
+  @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+
   .status-title {
-    font-size: 20px; font-weight: 800; letter-spacing: -0.3px;
+    font-size: 22px; font-weight: 800; letter-spacing: -0.3px;
     color: var(--sb-navy); line-height: 1.3; margin-bottom: 6px;
   }
   .status-desc {
@@ -130,40 +120,42 @@
     max-width: 320px; margin: 0 auto;
   }
 
-  /* Review notice */
-  .review-notice {
-    margin-top: 18px;
-    background: var(--sb-amber-soft);
-    border: 1px solid var(--sb-amber-border);
-    border-left: 3px solid var(--sb-amber);
+  /* Credited amount */
+  .amount-block {
+    display: flex; align-items: baseline; justify-content: center; gap: 6px;
+    margin: 22px 0 6px;
+  }
+  .amount-block .cur { font-size: 16px; font-weight: 700; color: var(--sb-green); }
+  .amount-block .val {
+    font-size: 36px; font-weight: 900; letter-spacing: -1.2px;
+    color: var(--sb-green); line-height: 1;
+  }
+  .credited-label {
+    text-align: center; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.7px; text-transform: uppercase;
+    color: var(--sb-muted); margin-bottom: 18px;
+  }
+
+  /* Confirmation notice */
+  .confirm-notice {
+    background: var(--sb-green-soft);
+    border: 1px solid #C5E4D4;
+    border-left: 3px solid var(--sb-green);
     border-radius: 12px;
     padding: 14px 16px;
     font-size: 12.5px;
-    color: #7C2D12;
+    color: #0A5C38;
     line-height: 1.65;
     text-align: left;
+    margin-bottom: 20px;
   }
-  .review-notice strong {
-    color: #9A3412; font-weight: 800; display: block;
+  .confirm-notice strong {
+    color: #0A5C38; font-weight: 800; display: block;
     margin-bottom: 6px; font-size: 13px;
   }
-  .review-notice .amount-em {
-    font-weight: 800; color: #9A3412;
-  }
-  .review-notice .small-note {
+  .confirm-notice .small-note {
     display: block; margin-top: 8px;
-    font-size: 11.5px; color: #9A3412; line-height: 1.55;
-  }
-
-  /* Amount */
-  .amount-block {
-    display: flex; align-items: baseline; justify-content: center; gap: 6px;
-    margin: 20px 0 16px;
-  }
-  .amount-block .cur { font-size: 16px; font-weight: 700; color: var(--sb-royal); }
-  .amount-block .val {
-    font-size: 34px; font-weight: 800; letter-spacing: -1.2px;
-    color: var(--sb-primary); line-height: 1;
+    font-size: 11.5px; color: #0A5C38; line-height: 1.55;
   }
 
   /* Recipient */
@@ -203,9 +195,16 @@
     background: #fff; padding: 2px 7px; border-radius: 5px;
     border: 1px solid var(--sb-border);
   }
-  .detail-row .v.status-review { color: var(--sb-amber); font-weight: 800; }
+  .detail-row .v.status-done {
+    color: var(--sb-green); font-weight: 800;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .detail-row .v.status-done::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--sb-green); display: inline-block;
+  }
 
-  /* Footer — logo + text */
+  /* Footer */
   .sb-footer {
     width: 100%; margin-top: 4px;
     background: var(--sb-navy);
@@ -214,18 +213,11 @@
     display: flex; align-items: center; justify-content: space-between;
     gap: 12px; text-align: left;
   }
-  .foot-brand {
-    display: flex; align-items: center; gap: 8px;
-    min-width: 0;
-  }
+  .foot-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
   .sb-footer .foot-logo {
-    height: 24px; width: auto; display: block; flex-shrink: 0;
+    height: 20px; width: auto; display: block; flex-shrink: 0;
+    filter: brightness(0) invert(1);
   }
-  .sb-footer .foot-brand-text {
-    font-size: 17px; font-weight: 800; letter-spacing: -0.4px;
-    color: #fff; line-height: 1; white-space: nowrap;
-  }
-  .sb-footer .foot-brand-text .dot { color: var(--sb-gold); }
   .sb-footer .foot-support {
     font-size: 10.5px; color: rgba(255,255,255,0.72); line-height: 1.5; font-weight: 500;
     text-align: right;
@@ -234,14 +226,14 @@
     color: var(--sb-gold); font-weight: 700; font-size: 11.5px;
   }
 
-  /* ─── CLOSE BUTTON — BIG ─── */
+  /* Close button */
   .close-btn {
     width: 100%; margin-top: 18px; min-height: 64px;
     background: var(--sb-primary); color: #fff;
     border: none; border-radius: 12px;
     font-family: inherit; font-size: 17px; font-weight: 800;
     letter-spacing: 0.4px; cursor: pointer;
-    box-shadow: 0 10px 24px rgba(1,0,140,0.28);
+    box-shadow: 0 10px 24px rgba(236,17,26,0.28);
     transition: filter .15s, transform .1s;
     display: flex; align-items: center; justify-content: center;
     padding: 18px 24px;
@@ -260,29 +252,27 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* ─── RESPONSIVE ─── */
+  /* Responsive */
   @media (max-width: 380px) {
-    .toolbar-logo { height: 26px; }
-    .toolbar-brand-text { font-size: 16px; }
+    .toolbar-logo { height: 20px; }
     .tool-btn { padding: 7px 10px; font-size: 11px; }
     .top { padding: 18px 18px 22px; }
     .body { padding: 18px 18px 18px; }
     .page-title { font-size: 17px; }
     .tick { width: 74px; height: 74px; }
-    .tick svg { width: 36px; height: 36px; }
-    .status-title { font-size: 18px; }
-    .amount-block .val { font-size: 28px; }
+    .tick svg { width: 38px; height: 38px; }
+    .status-title { font-size: 19px; }
+    .amount-block .val { font-size: 30px; }
     .close-btn { min-height: 60px; font-size: 16px; }
     .sb-footer { padding: 14px 16px; }
-    .sb-footer .foot-logo { height: 22px; }
-    .sb-footer .foot-brand-text { font-size: 15px; }
+    .sb-footer .foot-logo { height: 18px; }
   }
   @media (min-width: 640px) {
     body { padding: 32px 0; align-items: center; }
     .phone {
       min-height: calc(100vh - 64px); max-height: 900px;
       border-radius: 20px;
-      box-shadow: 0 30px 80px rgba(1,0,140,0.18);
+      box-shadow: 0 30px 80px rgba(236,17,26,0.18);
       overflow: hidden;
     }
   }
@@ -291,7 +281,7 @@
     .toolbar, .close-btn, .sb-footer { display: none !important; }
     .phone { box-shadow: none; }
     .top { background: #fff; border-bottom: 1px solid #ccc; padding: 12px 0; }
-    .page-title { color: var(--sb-primary); }
+    .page-title { color: var(--sb-green); }
     .page-sub { color: var(--sb-muted); }
     .tick { box-shadow: none; }
   }
@@ -306,12 +296,11 @@
     <div class="toolbar-brand">
       <img
         class="toolbar-logo"
-        src="https://cdn.brandfetch.io/idrjWN3IVw/w/582/h/164/theme/dark/logo.png?c=1dxbfHSJFAPEGdCLU4o5B"
-        alt="Stanbic Bank"
+        src="https://upload.wikimedia.org/wikipedia/commons/2/22/Scotiabank_logo.svg"
+        alt="Scotiabank"
         referrerpolicy="no-referrer"
         onerror="this.style.display='none'"
       >
-      <span class="toolbar-brand-text">Stanbic<span class="dot">.</span></span>
     </div>
     <div class="toolbar-actions">
       <button class="tool-btn" id="copyBtn" onclick="copyReceipt()">
@@ -327,8 +316,8 @@
 
   <!-- TOP -->
   <div class="top">
-    <div class="page-title" id="pageTitle">Transfer under review</div>
-    <div class="page-sub" id="pageSub">Your confirmation has been received and is now being reviewed.</div>
+    <div class="page-title" id="pageTitle">Transfer confirmed</div>
+    <div class="page-sub" id="pageSub">Your incoming transfer has been confirmed and the funds are now in your account.</div>
   </div>
 
   <!-- BODY -->
@@ -336,30 +325,26 @@
 
     <div class="status-block">
       <div class="tick" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M12 7v5l3 2"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><polyline points="5 12 10 17 19 7"/></svg>
       </div>
-      <div class="status-title" id="statusTitle">Under review</div>
-      <div class="status-desc" id="statusDesc">Your details are being reviewed. Once confirmed, the amount will be credited to your account.</div>
-    </div>
-
-    <div class="review-notice" id="reviewNotice">
-      <strong id="reviewNoticeTitle">What happens next?</strong>
-      <span id="reviewNoticeBody">
-        Your confirmation has been received. Our team is verifying the transfer.
-        The total amount of <span class="amount-em" id="reviewAmount">—</span> will be credited to your account
-        <strong>once the review is complete</strong>.
-      </span>
-      <span class="small-note" id="reviewNoticeNote">
-        This usually takes a few minutes. You will receive a confirmation message from Stanbic Bank as soon as the amount is credited. No further action is needed from you.
-      </span>
+      <div class="status-title" id="statusTitle">Transfer confirmed</div>
+      <div class="status-desc" id="statusDesc">Your incoming transfer has been confirmed and the funds are now in your account.</div>
     </div>
 
     <div class="amount-block">
       <span class="cur" id="amtCur">—</span>
       <span class="val" id="amtVal">0.00</span>
+    </div>
+    <div class="credited-label" id="creditedLabel">Credited to your account</div>
+
+    <div class="confirm-notice">
+      <strong id="confirmTitle">Payment received</strong>
+      <span id="confirmBody">
+        The amount has been successfully credited to your account. You will receive a confirmation message from Scotiabank shortly.
+      </span>
+      <span class="small-note" id="confirmNote">
+        No further action is needed. Keep this receipt for your records.
+      </span>
     </div>
 
     <div class="recipient-line">
@@ -373,12 +358,11 @@
       <div class="foot-brand">
         <img
           class="foot-logo"
-          src="https://cdn.brandfetch.io/idrjWN3IVw/w/582/h/164/theme/dark/logo.png?c=1dxbfHSJFAPEGdCLU4o5B"
-          alt="Stanbic Bank"
+          src="https://upload.wikimedia.org/wikipedia/commons/2/22/Scotiabank_logo.svg"
+          alt="Scotiabank"
           referrerpolicy="no-referrer"
           onerror="this.style.display='none'"
         >
-        <span class="foot-brand-text">Stanbic<span class="dot">.</span></span>
       </div>
       <div class="foot-support">
         <span id="needHelpLabel">Customer Care</span><br>
@@ -396,18 +380,19 @@
 <script>
   const I18N = {
     en: {
-      docTitle: 'Stanbic Bank · Transfer Under Review',
+      docTitle: 'Scotiabank · Transfer Confirmed',
       copyReceipt: 'Copy',
       print: 'Print',
       copied: 'Copied ✓',
       copyToast: 'Receipt copied to clipboard.',
-      pageTitle: 'Transfer under review',
-      pageSub: 'Your confirmation has been received and is now being reviewed.',
-      statusTitle: 'Under review',
-      statusDesc: 'Your details are being reviewed. Once confirmed, the amount will be credited to your account.',
-      reviewNoticeTitle: 'What happens next?',
-      reviewNoticeBody: 'Your confirmation has been received. Our team is verifying the transfer. The total amount of <span class="amount-em" id="reviewAmount">—</span> will be credited to your account <strong>once the review is complete</strong>.',
-      reviewNoticeNote: 'This usually takes a few minutes. You will receive a confirmation message from Stanbic Bank as soon as the amount is credited. No further action is needed from you.',
+      pageTitle: 'Transfer confirmed',
+      pageSub: 'Your incoming transfer has been confirmed and the funds are now in your account.',
+      statusTitle: 'Transfer confirmed',
+      statusDesc: 'Your incoming transfer has been confirmed and the funds are now in your account.',
+      creditedLabel: 'Credited to your account',
+      confirmTitle: 'Payment received',
+      confirmBody: 'The amount has been successfully credited to your account. You will receive a confirmation message from Scotiabank shortly.',
+      confirmNote: 'No further action is needed. Keep this receipt for your records.',
       toLabel: 'To',
       needHelp: 'Customer Care',
       callLabel: 'Call',
@@ -419,8 +404,8 @@
       kService: 'Service',
       kMarketed: 'From',
       kStatus: 'Status',
-      vUnderReview: 'Under review',
-      receiptTitle: 'Stanbic Bank — Transfer Under Review',
+      vDone: 'Confirmed',
+      receiptTitle: 'Scotiabank — Transfer Confirmed',
       receiptStatus: 'Status',
       receiptAmount: 'Amount',
       receiptRecipient: 'Recipient',
@@ -432,18 +417,19 @@
       receiptDate: 'Date'
     },
     fr: {
-      docTitle: 'Stanbic Bank · Virement en cours de vérification',
+      docTitle: 'Scotiabank · Virement confirmé',
       copyReceipt: 'Copier',
       print: 'Imprimer',
       copied: 'Copié ✓',
       copyToast: 'Reçu copié dans le presse-papiers.',
-      pageTitle: 'Virement en cours de vérification',
-      pageSub: 'Votre confirmation a été reçue et est maintenant en cours de vérification.',
-      statusTitle: 'En cours de vérification',
-      statusDesc: 'Vos informations sont en cours de vérification. Une fois confirmé, le montant sera crédité sur votre compte.',
-      reviewNoticeTitle: 'Que se passe-t-il ensuite ?',
-      reviewNoticeBody: 'Votre confirmation a été reçue. Notre équipe vérifie le virement. Le montant total de <span class="amount-em" id="reviewAmount">—</span> sera crédité sur votre compte <strong>une fois la vérification terminée</strong>.',
-      reviewNoticeNote: 'Cela prend généralement quelques minutes. Vous recevrez un message de confirmation de Stanbic Bank dès que le montant sera crédité. Aucune action supplémentaire n\'est requise de votre part.',
+      pageTitle: 'Virement confirmé',
+      pageSub: 'Votre virement entrant a été confirmé et les fonds sont maintenant sur votre compte.',
+      statusTitle: 'Virement confirmé',
+      statusDesc: 'Votre virement entrant a été confirmé et les fonds sont maintenant sur votre compte.',
+      creditedLabel: 'Crédité sur votre compte',
+      confirmTitle: 'Paiement reçu',
+      confirmBody: 'Le montant a été crédité avec succès sur votre compte. Vous recevrez un message de confirmation de Scotiabank sous peu.',
+      confirmNote: 'Aucune action supplémentaire n\'est requise. Conservez ce reçu pour vos dossiers.',
       toLabel: 'À',
       needHelp: 'Service Client',
       callLabel: 'Appelez le',
@@ -455,8 +441,8 @@
       kService: 'Service',
       kMarketed: 'De',
       kStatus: 'Statut',
-      vUnderReview: 'En cours de vérification',
-      receiptTitle: 'Stanbic Bank — Virement en cours de vérification',
+      vDone: 'Confirmé',
+      receiptTitle: 'Scotiabank — Virement confirmé',
       receiptStatus: 'Statut',
       receiptAmount: 'Montant',
       receiptRecipient: 'Destinataire',
@@ -496,16 +482,19 @@
     'Uganda (MTN)': '100',
     'Ghana': '100',
     'Ghana (MTN)': '100',
-    'Benin': '111'
+    'Benin': '111',
+    'Botswana': '399 9100',
+    'Côte d\'Ivoire': '111',
+    'Congo Brazzaville': '111',
+    'eSwatini': '112',
+    'Liberia': '111',
+    'Rwanda': '111'
   };
 
   const CURRENCY_LOCALE = {
-    XAF: 'fr-CM',
-    ZMW: 'en-ZM',
-    UGX: 'en-UG',
-    GHS: 'en-GH',
-    XOF: 'fr-BJ',
-    USD: 'en-US'
+    XAF: 'fr-CM', ZMW: 'en-ZM', UGX: 'en-UG', GHS: 'en-GH',
+    XOF: 'fr-BJ', BWP: 'en-BW', USD: 'en-US',
+    SZL: 'en-SZ', LRD: 'en-LR', RWF: 'en-RW'
   };
 
   function formatAmount(amount, currency) {
@@ -547,9 +536,10 @@
     document.getElementById('pageSub').textContent = T.pageSub;
     document.getElementById('statusTitle').textContent = T.statusTitle;
     document.getElementById('statusDesc').textContent = T.statusDesc;
-    document.getElementById('reviewNoticeTitle').textContent = T.reviewNoticeTitle;
-    document.getElementById('reviewNoticeBody').innerHTML = T.reviewNoticeBody;
-    document.getElementById('reviewNoticeNote').textContent = T.reviewNoticeNote;
+    document.getElementById('creditedLabel').textContent = T.creditedLabel;
+    document.getElementById('confirmTitle').textContent = T.confirmTitle;
+    document.getElementById('confirmBody').textContent = T.confirmBody;
+    document.getElementById('confirmNote').textContent = T.confirmNote;
     document.getElementById('recipientLabel').textContent = T.toLabel;
     document.getElementById('needHelpLabel').textContent = T.needHelp;
     document.getElementById('callLabel').textContent = T.callLabel;
@@ -565,9 +555,6 @@
     document.getElementById('amtVal').textContent =
       tx.am ? formatAmount(tx.am, tx.cur).replace(' ' + tx.cur, '') : '0.00';
 
-    const reviewAmt = document.getElementById('reviewAmount');
-    if (reviewAmt) reviewAmt.textContent = amtFull;
-
     document.getElementById('reqRecipient').textContent = tx.rn || '—';
     document.getElementById('supportNum').textContent = SUPPORT_NUMBERS[tx.c] || '—';
 
@@ -578,7 +565,7 @@
       { k: T.kPaymentMethod,   v: tx.pm },
       { k: T.kService,         v: tx.sn },
       { k: T.kMarketed,        v: tx.mk },
-      { k: T.kStatus,          v: T.vUnderReview, cls: 'status-review' }
+      { k: T.kStatus,          v: T.vDone, cls: 'status-done' }
     ];
 
     let html = '';
@@ -601,7 +588,7 @@
     const lines = [
       T.receiptTitle,
       '=====================================',
-      T.receiptStatus + ': ' + T.vUnderReview,
+      T.receiptStatus + ': ' + T.vDone,
       T.receiptAmount + ': ' + amtFull,
       T.receiptRecipient + ': ' + (tx.rn || ''),
       T.receiptCountry + ': ' + (tx.c || ''),
